@@ -1,0 +1,18 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+.mainPaper {
+  width: 90%;
+  margin: 1em auto;
+  padding: 1em;
+}
+
+.tableSessionHeader {
+  background-color: #EFEFEF !important;
+}

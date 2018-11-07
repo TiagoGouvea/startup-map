@@ -155,7 +155,7 @@ if ($sg_enabled) {
     <div class='alert alert-info'>
       Note: You have Startup Genome integration enabled in your config file (/include/db.php).
       If you want to make changes to the markers on your map, please do so from the 
-      <a href='http://www.startupgenome.com'>Startup Genome website</a>. Any changes
+      <a href='https://www.startupgenome.com'>Startup Genome website</a>. Any changes
       you make here may not persist on your map unless you turn off Startup Genome mode.
     </div>
   ";

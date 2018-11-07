@@ -1,5 +1,7 @@
 <?php
 
+date_default_timezone_set('America/Sao_Paulo');
+setlocale(LC_ALL, "ptb");
 
 function isLocalHost()
 {
@@ -7,16 +9,21 @@ function isLocalHost()
     return in_array($serverName, array('localhost', '127.0.0.1'));
 }
 
+
 if (isLocalHost()) {
-    $db_host = "localhost";
-    $db_name = "dbname";
-    $db_user = "dbuser";
-    $db_pass = "";
+    error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING);
+    ini_set("display_errors", 1);
+    $db_host = "mine-mysql";
+    $db_name = "startup_map";
+    $db_user = "root";
+    $db_pass = "rut";
     $admin_user = "adminuser";
     $admin_pass = "adminpass";
     $dash_user = "dashuser";
     $dash_pass = "dashpass";
 } else {
+    error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING);
+    ini_set("display_errors", 0);
     $db_host = "localhost";
     $db_name = "dbname";
     $db_user = "dbuser";
@@ -27,6 +34,12 @@ if (isLocalHost()) {
     $dash_pass = "dashpass";
 }
 
+
+function query($sql){
+    global $dbh;
+    $result = $dbh->query($sql);
+    return $result->fetchAll(PDO::FETCH_ASSOC);
+}
 
 // StartupGenome.com integration (optional)
 //

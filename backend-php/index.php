@@ -22,7 +22,7 @@ include_once "header.php";
     <meta property="og:image" content="http://startups.emjuizdefora.com/images/emjf.png">
     <meta property="og:description" content="<?php echo $meta_desc; ?>">
 
-    <link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:700|Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans+Condensed:700|Open+Sans:400,700' rel='stylesheet' type='text/css'>
     <link href="./bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css"/>
     <link href="./bootstrap/css/bootstrap-responsive.css" rel="stylesheet" type="text/css"/>
     <link rel="stylesheet" href="./css/map.css?nocache=289671982568" type="text/css"/>
@@ -36,7 +36,7 @@ include_once "header.php";
     <script src="./bootstrap/js/bootstrap.js" type="text/javascript" charset="utf-8"></script>
     <script src="./bootstrap/js/bootstrap-typeahead.js" type="text/javascript" charset="utf-8"></script>
 
-    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBvI-D-kzA463pJXDO7uNtVtd52Q-T77Oc"></script>
     <script type="text/javascript" src="./scripts/label.js"></script>
 
     <script type="text/javascript">
@@ -179,9 +179,9 @@ include_once "header.php";
 
             $marker_id = 0;
             foreach ($types as $type) {
-                $places = mysql_query("SELECT * FROM places WHERE approved='1' AND type='$type[0]' ORDER BY title");
-                $places_total = mysql_num_rows($places);
-                while ($place = mysql_fetch_assoc($places)) {
+                $places = query("SELECT * FROM places WHERE approved='1' AND type='$type[0]' ORDER BY title");
+                $places_total = count($places);
+                foreach ($places as $place) {
                     $place[title] = utf8_encode(htmlspecialchars_decode(addslashes(htmlspecialchars($place[title]))));
                     $place[description] = utf8_encode(str_replace(array("\n", "\t", "\r"), "", htmlspecialchars_decode(addslashes(htmlspecialchars($place[description])))));
                     $place[uri] = addslashes(htmlspecialchars($place[uri]));
@@ -196,9 +196,9 @@ include_once "header.php";
             }
             if ($show_events == true) {
                 $place[type] = "event";
-                $events = mysql_query("SELECT * FROM events WHERE start_date > " . time() . " and approved='1' ORDER BY id DESC");
-                $events_total = mysql_num_rows($events);
-                while ($event = mysql_fetch_assoc($events)) {
+                $events = query("SELECT * FROM events WHERE start_date > " . time() . " and approved='1' ORDER BY id DESC");
+                $events_total = count($events);
+                foreach ($events as $event) {
                     $event[title] = utf8_encode(htmlspecialchars_decode(addslashes(htmlspecialchars($event[title]))));
                     $event[description] = utf8_encode(str_replace(array("\n", "\t", "\r"), "", htmlspecialchars_decode(addslashes(htmlspecialchars($event[description])))));
                     $event[uri] = addslashes(htmlspecialchars($event[uri]));
@@ -443,11 +443,11 @@ include_once "header.php";
             $marker_id = 0;
             foreach ($types as $type) {
                 if ($type[0] != "event") {
-                    $markers = mysql_query("SELECT * FROM places WHERE approved='1' AND type='$type[0]' ORDER BY title");
+                    $markers = query("SELECT * FROM places WHERE approved='1' AND type='$type[0]' ORDER BY title");
                 } else {
-                    $markers = mysql_query("SELECT * FROM events WHERE start_date > " . time() . " AND start_date < " . (time() + 4838400) . " ORDER BY id DESC");
+                    $markers = query("SELECT * FROM events WHERE start_date > " . time() . " AND start_date < " . (time() + 4838400) . " ORDER BY id DESC");
                 }
-                $markers_total = mysql_num_rows($markers);
+                $markers_total = count($markers);
                 echo "
               <li class='category'>
                 <div class='category_item'>
@@ -456,7 +456,7 @@ include_once "header.php";
                 </div>
                 <ul class='list-items list-$type[0]'>
             ";
-                while ($marker = mysql_fetch_assoc($markers)) {
+                foreach ($markers as $marker){
                     echo "
                   <li class='" . $marker[type] . "'>
                     <a href='#' onMouseOver=\"markerListMouseOver('" . $marker_id . "')\" onMouseOut=\"markerListMouseOut('" . $marker_id . "')\" onClick=\"goToMarker('" . $marker_id . "');\">" . utf8_encode($marker[title]) . "</a>
